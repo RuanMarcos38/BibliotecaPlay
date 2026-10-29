@@ -1,0 +1,64 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+enum Role { ADMIN EDITOR SUBSCRIBER }
+enum Publication { DRAFT PUBLISHED ARCHIVED }
+enum SubscriptionStatus { PENDING ACTIVE PAST_DUE CANCELED EXPIRED SUSPENDED }
+model User {
+ id String @id @default(cuid())
+ name String
+ email String @unique
+ passwordHash String
+ role Role @default(SUBSCRIBER)
+ createdAt DateTime @default(now())
+ subscriptions Subscription[]
+ progress ReadingProgress[]
+}
+model Category {
+ id String @id @default(cuid())
+ name String @unique
+ slug String @unique
+ ebooks Ebook[]
+}
+model Ebook {
+ id String @id @default(cuid())
+ title String
+ slug String @unique
+ author String
+ description String @db.Text
+ coverUrl String?
+ fileKey String? // private storage object key, never public URL
+ status Publication @default(DRAFT)
+ publishedAt DateTime?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ categoryId String
+ category Category @relation(fields: [categoryId], references: [id])
+ progress ReadingProgress[]
+}
+model Subscription {
+ id String @id @default(cuid())
+ userId String
+ user User @relation(fields: [userId], references: [id])
+ gatewayId String? @unique
+ status SubscriptionStatus @default(PENDING)
+ paidThrough DateTime?
+ createdAt DateTime @default(now())
+ @@index([userId,status])
+}
+model ReadingProgress {
+ userId String
+ ebookId String
+ page Int @default(1)
+ updatedAt DateTime @updatedAt
+ user User @relation(fields: [userId], references: [id])
+ ebook Ebook @relation(fields: [ebookId], references: [id])
+ @@id([userId, ebookId])
+}
+model PaymentEvent {
+ id String @id @default(cuid())
+ provider String
+ providerEventId String
+ payload Json
+ receivedAt DateTime @default(now())
+ @@unique([provider,providerEventId])
+}
