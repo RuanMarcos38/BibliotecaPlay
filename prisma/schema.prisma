@@ -12,7 +12,6 @@ model User {
  createdAt DateTime @default(now())
  subscriptions Subscription[]
  progress ReadingProgress[]
- videos Video[]
 }
 model Category {
  id String @id @default(cuid())
@@ -35,6 +34,7 @@ model Ebook {
  categoryId String
  category Category @relation(fields: [categoryId], references: [id])
  progress ReadingProgress[]
+ videos Video[]
 }
 model Subscription {
  id String @id @default(cuid())
