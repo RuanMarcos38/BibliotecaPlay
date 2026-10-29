@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { db } from "@/lib/db";
 const cookieName = "bp_session";
 function secret() {
  const value = process.env.SESSION_SECRET;
@@ -13,7 +14,7 @@ export async function createSession(user: {id:string;role:string}) {
 export async function getSession() {
  const token=(await cookies()).get(cookieName)?.value;
  if (!token) return null;
- try {const {payload}=await jwtVerify(token,secret()); return {id:payload.sub as string,role:payload.role as string};}
+ try {const {payload}=await jwtVerify(token,secret(),{algorithms:["HS256"]}); if(typeof payload.sub!=="string") return null; const user=await db.user.findUnique({where:{id:payload.sub},select:{id:true,role:true}}); return user;}
  catch{return null;}
 }
 export async function clearSession(){(await cookies()).delete(cookieName);}

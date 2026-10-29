@@ -127,6 +127,12 @@ dist
 
 # pnpm
 .pnpm-store
+.next/
+.env
+.env.*
+!.env.example
+.vercel/
+*.tsbuildinfo
 
 # yarn v3
 .pnp.*
