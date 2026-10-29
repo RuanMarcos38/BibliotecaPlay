@@ -34,3 +34,14 @@ Não defina manualmente status de assinatura via frontend. O estado ACTIVE e pai
 2. Implementar upload administrativo com verificação MIME, tamanho, antivírus e processamento em fila.
 3. Integrar gateway com webhook autenticado e idempotente; habilitar leitores apenas após testes.
 4. Adicionar PDF.js, vídeos HLS e testes de acesso negativo.
+
+
+## CRM R2 Supabase — isolamento obrigatório
+O banco autorizado é o CRM R2 MARKETING DIGITAL, porém **somente o schema `bibliotecaplay`** pode ser utilizado.
+- Projeto Supabase: `iqrnytsgwaiegddfxfjs`.
+- Criadas 7 tabelas isoladas: User, Category, Ebook, Video, Subscription, ReadingProgress, PaymentEvent.
+- Nunca executar `prisma db push`, `prisma migrate reset` ou `prisma migrate dev` contra a instância compartilhada de produção. A migração inicial já foi aplicada de forma controlada.
+- DATABASE_URL deve incluir `?schema=bibliotecaplay` (ou `&schema=bibliotecaplay` se já houver parâmetros).
+- Recomendado criar um papel PostgreSQL exclusivo com privilégios restritos ao schema bibliotecaplay, em vez de usar o usuário postgres compartilhado.
+- Não executar instruções DDL em `public`, `auth`, `storage` ou outros schemas do CRM.
+- O banco existe; aplicação ainda depende da DATABASE_URL secreta configurada na hospedagem e validação em ambiente de teste.

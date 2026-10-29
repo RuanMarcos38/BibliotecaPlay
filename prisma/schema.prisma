@@ -1,14 +1,11 @@
 generator client { provider = "prisma-client-js" }
 datasource db { provider = "postgresql" url = env("DATABASE_URL") }
-enum Role { ADMIN EDITOR SUBSCRIBER }
-enum Publication { DRAFT PUBLISHED ARCHIVED }
-enum SubscriptionStatus { PENDING ACTIVE PAST_DUE CANCELED EXPIRED SUSPENDED }
 model User {
  id String @id @default(cuid())
  name String
  email String @unique
  passwordHash String
- role Role @default(SUBSCRIBER)
+ role String @default("SUBSCRIBER")
  createdAt DateTime @default(now())
  subscriptions Subscription[]
  progress ReadingProgress[]
@@ -27,7 +24,7 @@ model Ebook {
  description String @db.Text
  coverUrl String?
  fileKey String? // private storage object key, never public URL
- status Publication @default(DRAFT)
+ status String @default("DRAFT")
  publishedAt DateTime?
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
@@ -41,10 +38,10 @@ model Subscription {
  userId String
  user User @relation(fields: [userId], references: [id])
  gatewayId String? @unique
- status SubscriptionStatus @default(PENDING)
+ status String @default("PENDING")
  paidThrough DateTime?
  createdAt DateTime @default(now())
- @@index([userId,status])
+ @@index([userId,status], map:"bp_subscription_user_status_idx")
 }
 model ReadingProgress {
  userId String
