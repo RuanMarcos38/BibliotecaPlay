@@ -12,6 +12,7 @@ model User {
  createdAt DateTime @default(now())
  subscriptions Subscription[]
  progress ReadingProgress[]
+ videos Video[]
 }
 model Category {
  id String @id @default(cuid())
@@ -54,6 +55,16 @@ model ReadingProgress {
  ebook Ebook @relation(fields: [ebookId], references: [id])
  @@id([userId, ebookId])
 }
+
+model Video {
+ id String @id @default(cuid())
+ title String
+ ebookId String
+ ebook Ebook @relation(fields:[ebookId],references:[id],onDelete:Cascade)
+ storageKey String
+ createdAt DateTime @default(now())
+}
+
 model PaymentEvent {
  id String @id @default(cuid())
  provider String

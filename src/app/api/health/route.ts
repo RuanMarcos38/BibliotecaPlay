@@ -1,0 +1,1 @@
+import {NextResponse} from "next/server";export function GET(){return NextResponse.json({service:"BibliotecaPlay",status:"running",paymentsConfigured:false,storageConfigured:Boolean(process.env.STORAGE_ENDPOINT)});}
