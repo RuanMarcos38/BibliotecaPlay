@@ -54,3 +54,9 @@ A impressão dos metadados de tabelas/colunas, RLS e privilégios fora de biblio
 Bootstrap seguro de administrador; equipe editorial; verificação e recuperação de e-mail/senha; revogação de sessões e rate limiting persistente; perfil e favoritos; leitor PDF.js completo; importação em massa; gerenciamento de vídeos; streaming privado; dashboard financeiro real; pagamentos e webhooks; termos/privacidade com dados reais do responsável; assets e tipografia aprovados; testes completos com serviços reais e publicação.
 
 A plataforma ainda não está pronta para comercialização. Não houve cobrança real.
+
+## Registro final de validação
+Commit de implementação publicado: 3b75c52cc11644b0fa59c1841381729740d2602f, branch feat/bibliotecaplay-foundation. Ponto de recuperação também publicado no GitHub.
+Compilação final de produção: passou. TypeScript: passou. Prisma validate: passou. Testes de origem: 3/3 passaram.
+Aplicação de produção executada localmente na porta 3100: 8/8 verificações HTTP passaram — entrada e cadastro (200), administração/PDF/vídeo/progresso sem sessão (403), logout de origem externa (403), logout da própria origem (200).
+Navegador: telas de entrada e cadastro carregaram e a navegação entre elas funcionou. Não houve cadastro real, autenticação completa nem validação de leitura/pagamento com serviços externos.
