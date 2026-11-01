@@ -22,7 +22,7 @@ Esses recursos dependem de banco e storage configurados e não foram todos valid
 ## Supabase e preservação do CRM
 Sete tabelas exclusivas, com RLS habilitado, sem acesso de `anon` e `authenticated`. A autenticação da BibliotecaPlay usa seu próprio modelo User; não reutiliza os usuários do CRM nem modifica `auth`.
 
-Storage proposto: bucket privado `bibliotecaplay-private`. Esse bucket **ainda não foi criado**. Endpoint e região estão preparados em `.env.example`, sem credenciais. Nunca reutilize credenciais compartilhadas com outros projetos; a configuração de acesso mínimo precisa ser resolvida antes da integração real.
+Storage provisionado: bucket privado `bibliotecaplay-private`, criado em 31/10/2026, com limite de 50 MiB e formatos PDF, WebP e MP4. A integração runtime ainda depende de credenciais autorizadas. Endpoint e região estão preparados em `.env.example`, sem credenciais. Nunca reutilize credenciais compartilhadas com outros projetos; a configuração de acesso mínimo precisa ser resolvida antes da integração real.
 
 ## Estado e pendências
 Leia [docs/STATUS.md](docs/STATUS.md) para os testes, alterações aplicadas no Supabase, evidência de preservação do CRM, manual básico e bloqueios externos.
