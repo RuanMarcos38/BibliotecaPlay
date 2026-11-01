@@ -1,32 +1,23 @@
 # BibliotecaPlay
 
-Aplicação existente em Next.js 15, React 19 e TypeScript, com PostgreSQL/Prisma no esquema exclusivo `bibliotecaplay` do Supabase `iqrnytsgwaiegddfxfjs`.
+Aplicação existente em Next.js 15, React 19 e TypeScript, com Prisma 6.19.3 e PostgreSQL no esquema exclusivo bibliotecaplay do Supabase iqrnytsgwaiegddfxfjs.
 
-**Em desenvolvimento. Não habilitar venda de assinaturas antes de validar o fluxo completo.**
+## Estado atual
+Banco e bucket privado conectados no ambiente local. Build de produção, TypeScript, seis testes de origem, diagnósticos reais de banco/storage e quinze verificações do fluxo principal passaram. As fixtures foram removidas ao final. Não houve pagamento real.
+A aplicação ainda não foi publicada no domínio e não está pronta para comercialização. Pendências e evidências estão em docs/STATUS.md.
 
-## Execução
-1. Requer Node.js 20+ e pnpm 11.25.0.
-2. Configure as variáveis de `.env.example` em um arquivo local ignorado pelo Git. Não compartilhe credenciais no repositório.
-3. `pnpm install --frozen-lockfile`
-4. `pnpm exec prisma generate`
-5. `pnpm lint`, `pnpm test:security` e `pnpm build`
-6. `pnpm dev` para desenvolvimento ou `pnpm start` após o build.
+## Executar
+Requer Node.js 22+ e pnpm 11.25.0. Configure .env.local com credenciais específicas (arquivo ignorado pelo Git); .env.example é somente referência.
+Execute pnpm install --frozen-lockfile, pnpm exec prisma generate, pnpm lint, pnpm test:security, pnpm build e pnpm start. Use pnpm dev para desenvolvimento.
+DATABASE_URL deve usar o papel bibliotecaplay_runtime e schema=bibliotecaplay. O driver limita o pool a três conexões e valida o certificado TLS. Não copie credenciais do CRM.
+Nunca executar prisma db push, migrate reset ou migrate dev no banco compartilhado. docs/applied contém cópias para auditoria, não uma rotina de recriação do banco existente.
 
-`DATABASE_URL` deve usar explicitamente `schema=bibliotecaplay`. Não execute `prisma db push`, `migrate reset` ou `migrate dev` no banco compartilhado. As tabelas já existem. Credenciais da aplicação devem usar um papel exclusivo com permissões restritas ao esquema.
+## Diagnósticos
+- pnpm check:database: identidade do papel/esquema, escrita com rollback e negação de acesso ao CRM.
+- pnpm check:storage: upload/download privado e remoção de arquivo técnico.
+- pnpm check:core: servidor local na porta 3102, ou DIAGNOSTIC_BASE_URL informado. Usa e remove fixtures de usuários/conteúdo/assinatura. Não valida cobrança pelo gateway.
 
-## Recursos no código
-Catálogo público com busca por título/autor e categorias; cadastro/login com bcrypt e sessão HttpOnly; verificação de cargo no banco; proteção de origem nas gravações; administração de categorias e rascunhos; upload assinado de PDF/WebP/MP4; verificação inicial de formato no storage; publicação com PDF e capa; leitor nativo básico e página marcada manualmente; player de vídeo nativo; robots e sitemap.
+O bucket bibliotecaplay-private é privado, limitado a 50 MiB e aceita PDF, WebP e MP4. As credenciais autorizadas ficam somente no servidor. Nenhum segredo foi incluído neste repositório.
+O certificado público certs/supabase-prod-ca-2021.crt veio do endereço usado pelo painel oficial: https://supabase-downloads.s3-ap-southeast-1.amazonaws.com/prod/ssl/prod-ca-2021.crt. DATABASE_CA_CERT pode fornecer outro certificado PEM autorizado, mantendo a validação TLS.
 
-Esses recursos dependem de banco e storage configurados e não foram todos validados com serviços reais. O leitor atual não oferece todas as funções do PDF.js. O player ainda não tem transcodificação nem progresso persistente.
-
-## Supabase e preservação do CRM
-Sete tabelas exclusivas, com RLS habilitado, sem acesso de `anon` e `authenticated`. A autenticação da BibliotecaPlay usa seu próprio modelo User; não reutiliza os usuários do CRM nem modifica `auth`.
-
-Storage provisionado: bucket privado `bibliotecaplay-private`, criado em 31/10/2026, com limite de 50 MiB e formatos PDF, WebP e MP4. A integração runtime ainda depende de credenciais autorizadas. Endpoint e região estão preparados em `.env.example`, sem credenciais. Nunca reutilize credenciais compartilhadas com outros projetos; a configuração de acesso mínimo precisa ser resolvida antes da integração real.
-
-## Estado e pendências
-Leia [docs/STATUS.md](docs/STATUS.md) para os testes, alterações aplicadas no Supabase, evidência de preservação do CRM, manual básico e bloqueios externos.
-
-Ainda faltam gateway e webhooks de pagamentos, verificação/recuperação de senha, rate limiting persistente, gestão editorial completa, favoritos, PDF.js, processamento de vídeos, importação em massa, dashboard financeiro, validação visual, testes ponta a ponta e publicação.
-
-Nenhum pagamento real foi realizado. Nenhum segredo foi incluído no código.
+Leia docs/STATUS.md para o manual, a evidência de preservação do CRM, os resultados e as limitações atuais.
