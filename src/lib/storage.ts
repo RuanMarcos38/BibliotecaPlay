@@ -4,7 +4,7 @@ export async function uploadUrl(key:string,mime:string){const {bucket,client}=cf
 export async function readingUrl(key:string){const {bucket,client}=cfg();return getSignedUrl(client,new GetObjectCommand({Bucket:bucket,Key:key,ResponseContentDisposition:"inline"}),{expiresIn:120});}
 export async function verifyStoredFile(key:string,kind:"ebook"|"cover"|"video") {
  const {bucket,client}=cfg();
- const spec={ebook:{prefix:"ebooks/",mime:"application/pdf",max:50*1024*1024},cover:{prefix:"covers/",mime:"image/webp",max:5*1024*1024},video:{prefix:"videos/",mime:"video/mp4",max:500*1024*1024}}[kind];
+ const spec={ebook:{prefix:"ebooks/",mime:"application/pdf",max:50*1024*1024},cover:{prefix:"covers/",mime:"image/webp",max:5*1024*1024},video:{prefix:"videos/",mime:"video/mp4",max:50*1024*1024}}[kind];
  if(!key.startsWith(spec.prefix))throw new Error("Invalid file key");
  const metadata=await client.send(new HeadObjectCommand({Bucket:bucket,Key:key}));
  if(!metadata.ContentLength||metadata.ContentLength>spec.max||metadata.ContentType!==spec.mime)throw new Error("Invalid file metadata");
