@@ -1,0 +1,3 @@
+import {NextResponse} from "next/server";import {db} from "@/lib/db";import {z} from "zod";import {hash} from "bcryptjs";
+const schema=z.object({name:z.string().trim().min(2).max(100),email:z.string().email().max(200).transform(x=>x.toLowerCase()),password:z.string().min(12).max(72).refine(value=>new TextEncoder().encode(value).length<=72,"Senha excede 72 bytes")});
+export async function POST(req:Request){try{const data=schema.parse(await req.json());const passwordHash=await hash(data.password,12);await db.user.create({data:{name:data.name,email:data.email,passwordHash}});return NextResponse.json({ok:true},{status:201});}catch{return NextResponse.json({error:"Cadastro indisponível ou inválido"},{status:400});}}
