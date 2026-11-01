@@ -60,3 +60,10 @@ Commit de implementação publicado: 3b75c52cc11644b0fa59c1841381729740d2602f, b
 Compilação final de produção: passou. TypeScript: passou. Prisma validate: passou. Testes de origem: 3/3 passaram.
 Aplicação de produção executada localmente na porta 3100: 8/8 verificações HTTP passaram — entrada e cadastro (200), administração/PDF/vídeo/progresso sem sessão (403), logout de origem externa (403), logout da própria origem (200).
 Navegador: telas de entrada e cadastro carregaram e a navegação entre elas funcionou. Não houve cadastro real, autenticação completa nem validação de leitura/pagamento com serviços externos.
+
+## Atualização de 31/10/2026 — armazenamento provisionado
+O acesso ao painel do projeto foi confirmado. Criado o bucket bibliotecaplay-private, privado (public=false), limitado a 52.428.800 bytes (50 MiB), aceitando application/pdf, image/webp e video/mp4. Não foram adicionadas políticas públicas. Confirmação feita pelo painel e por consulta read-only a storage.buckets.
+Não foram alterados buckets existentes, limites globais, credenciais existentes, estruturas ou políticas do CRM. O bucket é um recurso novo, criado pela API normal do painel; nenhuma DDL foi executada no esquema storage.
+O código de upload e de validação de vídeo foi alinhado de 500 para 50 MiB, respeitando o limite global atual do projeto.
+A integração S3 ainda não foi ativada: o painel informa que uma chave S3 concede acesso a todos os buckets e ignora RLS. Nenhuma chave foi criada; é necessária autorização específica antes de conceder esse acesso mais amplo. Não há credenciais no repositório.
+Pagamento, conexão runtime do banco, testes com arquivos reais e publicação no domínio permanecem pendentes. A criação do bucket não conclui esses fluxos.
