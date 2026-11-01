@@ -61,3 +61,8 @@ Assinante com acesso confirmado: selecionar o e-book → Continuar leitura → i
 - Testes finais ponta a ponta incluindo pagamento, liberação de acesso e cancelamento antes de qualquer venda.
 
 Nenhuma cobrança real foi realizada.
+
+## Bloqueio de publicação — 01/11/2026
+A VPS existente em 2.25.155.142 tem Easypanel conectado. A licença gratuita já está no limite de três projetos. A tentativa de criar um projeto próprio exibiu o aviso de limite, sem criação de recursos ou compra de licença.
+A revisão automática rejeitou a criação de bibliotecaplay dentro do grupo compartilhado r2rmarketingdigital, por contrariar a exigência original de projeto exclusivo. Também rejeitou preencher o nome nesse formulário após o bloqueio. Nenhum serviço foi criado e nenhuma credencial foi transferida para a VPS.
+Para seguir por esse grupo, falta aprovação humana explícita da exceção: serviço próprio bibliotecaplay dentro do grupo de hospedagem compartilhado com o CRM. O código integrado e validado está no commit 80ab078150e6d45f99d0f584f801b7bb6642ab3d. Sem essa exceção, será necessário um projeto/hospedagem separado disponível; não houve contratação nem alteração de aplicativos existentes.
