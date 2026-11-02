@@ -10,7 +10,11 @@ function createClient() {
  if (!["postgresql:", "postgres:"].includes(connection.protocol) || connection.searchParams.get("schema") !== "bibliotecaplay") {
    throw new Error("DATABASE_URL must explicitly use schema=bibliotecaplay");
  }
- if (connection.username !== "bibliotecaplay_runtime") {
+ // Supavisor routes the same least-privilege role using a project suffix.
+ const isolatedPooler = /^aws-\d+-us-west-2\.pooler\.supabase\.com$/.test(connection.hostname)
+   && connection.username === "bibliotecaplay_runtime.iqrnytsgwaiegddfxfjs"
+   && connection.port === "5432";
+ if (connection.username !== "bibliotecaplay_runtime" && !isolatedPooler) {
    throw new Error("Use the dedicated bibliotecaplay_runtime database role");
  }
  // pg receives explicit TLS and pool settings; Prisma-only URL parameters are removed.
