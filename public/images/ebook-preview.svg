@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
+ <rect width="400" height="600" fill="#eee7d8"/>
+ <rect width="18" height="600" fill="#b70b27"/>
+ <path d="M18 0h382v110H18z" fill="#191919"/>
+ <text x="48" y="64" fill="#fff" font-family="Arial,sans-serif" font-size="24" font-weight="700">Biblioteca<tspan fill="#ff3853">Play</tspan></text>
+ <text x="48" y="166" fill="#a4122a" font-family="Arial,sans-serif" font-size="14" letter-spacing="3">UMA NOVA DESCOBERTA</text>
+ <g fill="#1a1a1a" font-family="Georgia,serif" font-size="53" font-weight="700"><text x="45" y="228">O PODER</text><text x="45" y="288">DA</text><text x="45" y="348">LEITURA</text></g>
+ <path d="M76 410q57-30 124 4 66-34 124-4v87q-58-23-124 8-67-31-124-8z" fill="#b70b27"/>
+ <path d="M200 414v91M88 423q51-20 99 2m26 0q49-22 99-2M88 444q51-20 99 2m26 0q49-22 99-2M88 465q51-20 99 2m26 0q49-22 99-2" fill="none" stroke="#eee7d8" stroke-width="3"/>
+ <text x="48" y="554" fill="#57534b" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">CAPA ILUSTRATIVA</text>
+</svg>
+
