@@ -10,6 +10,7 @@ RUN mkdir -p public
 # A build-only local URL satisfies schema validation; no production secrets are
 # sent to the image build and no database operation is performed by this step.
 RUN DATABASE_URL='postgresql://bibliotecaplay_runtime:build-only@127.0.0.1:5432/postgres?schema=bibliotecaplay' NEXT_TELEMETRY_DISABLED=1 pnpm build
+RUN node scripts/copy-prisma-runtime.mjs
 
 FROM node:22-bookworm-slim AS runtime
 WORKDIR /app
